@@ -24,14 +24,14 @@ public class User implements UserDetails {
             generator = "user_sequence"
     )
     private Long id;
-    private String name;
-    private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -46,7 +46,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
@@ -69,20 +73,34 @@ public class User implements UserDetails {
         return enabled;
     }
 
-    public User(String name,
-                String username,
+    public User(Long id,
+                String firstName,
+                String lastName,
                 String email,
                 String password,
                 UserRole userRole,
                 Boolean locked,
                 Boolean enabled) {
-        this.name = name;
-        this.username = username;
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
         this.locked = locked;
         this.enabled = enabled;
+    }
+
+    public User(String firstName,
+                String lastName,
+                String email,
+                String password,
+                UserRole userRole) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
     }
 
     public User() {
@@ -93,12 +111,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && userRole == user.userRole && Objects.equals(locked, user.locked) && Objects.equals(enabled, user.enabled);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && userRole == user.userRole && Objects.equals(locked, user.locked) && Objects.equals(enabled, user.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, username, email, password, userRole, locked, enabled);
+        return Objects.hash(id, firstName, lastName, email, password, userRole, locked, enabled);
     }
 
     public Long getId() {
@@ -109,16 +127,16 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String username) {
+        this.lastName = username;
     }
 
     public String getEmail() {
