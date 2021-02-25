@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 @Entity
-@Table(name = "urs")
+@Table(name = "usr")
 public class User implements UserDetails {
 
     @SequenceGenerator(
