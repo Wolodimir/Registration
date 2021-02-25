@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/registration
-    username: root
+    username: postgres
     password: root
   jpa:
     hibernate:
@@ -14,5 +14,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-          format_sql: true
     show-sql: true
