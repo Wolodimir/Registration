@@ -19,13 +19,17 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public RegistrationService(UserService userService, EmailValidator emailValidator, ConfirmationTokenService confirmationTokenService, EmailSender emailSender) {
+    public RegistrationService(UserService userService,
+                               EmailValidator emailValidator,
+                               ConfirmationTokenService confirmationTokenService,
+                               EmailSender emailSender) {
         this.userService = userService;
         this.emailValidator = emailValidator;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
     }
 
+    //request is a class been made just for it
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if(!isValidEmail){
@@ -40,9 +44,10 @@ public class RegistrationService {
                         UserRole.USER
                 )
         );
+        //verification link
         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(),
-                buildEmail(request.getFirstName(), link));
+
+        emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
         return token;
     }
 

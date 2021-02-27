@@ -19,7 +19,9 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public UserService(UserRepo userRepo, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
+    public UserService(UserRepo userRepo,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       ConfirmationTokenService confirmationTokenService) {
         this.userRepo = userRepo;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
@@ -45,19 +47,16 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
-        //TODO: Send confirmation token
+        //make a token with UUID
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
                 user
-
         );
 
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-        //TODO: send email
 
         return token;
     }
